@@ -46,6 +46,7 @@ int main(void) {
     // #####  VERIFY EMAIL ADDRESS  #####
     // ################################################
     Get_User_Data("Enter email address: ", email, EMAIL_LENGTH);
+    printf("The username is: %s\n", &username[0]);
     // email address have 4 parts in this order
     // name
     // max 32 characters
@@ -97,8 +98,12 @@ int main(void) {
     printf("Password must contain at least one lower case character\n");
     printf("Passwords do not match\n");
 
-    printf("Passwords match\n");
-    return 0;
+	// Checking two passwords
+	if (password_1 != password_2)
+	    printf("Passwords match\n");
+
+
+	return 0;
 }
 
 void Get_User_Data(char *message, char *data, const int MAX_LENGTH) {
