@@ -15,7 +15,6 @@ void Get_User_Data(char *message, char *username, const int MAX_LENGTH);
 /* add your function prototypes here */
 int Is_Letter(char c);
 
-
 int main(void) {
     char username[USER_NAME_LENGTH];
     char email[EMAIL_LENGTH];
@@ -98,12 +97,11 @@ int main(void) {
     printf("Password must contain at least one lower case character\n");
     printf("Passwords do not match\n");
 
-	// Checking two passwords
-	if (password_1 != password_2)
-	    printf("Passwords match\n");
+    // Checking two passwords
+    if (password_1 != password_2)
+        printf("Passwords match\n");
 
-
-	return 0;
+    return 0;
 }
 
 void Get_User_Data(char *message, char *data, const int MAX_LENGTH) {
