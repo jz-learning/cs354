@@ -36,11 +36,17 @@ int main(void) {
 
     char arr[] = "jameszhang@gmail.com";
     printf("String is: %s\n", arr);
+    
+    // at the end of the string is a '\0'. Just had to make sure
+    printf("at %p, arr: %d, char: %c\n", arr+20, *(arr+20), *(arr+20));
 
+    int length = 0;
     char *s = arr;
     while (*s) {
-        printf("(%c, %i) at:\t x%p\n", *s, *s, s);
+        printf("(%c, %d) at:\t x%p\n", *s, *s, s);
         s++;
+        length++;
     }
+    printf("Email length: %i\n", length);
 
 }
