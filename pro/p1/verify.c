@@ -12,11 +12,13 @@
 #define PASSWORD_LENGTH 256
 
 void Get_User_Data(char *message, char *username, const int MAX_LENGTH);
+
 /* add your function prototypes here */
 int Is_Letter(char c);
 int Is_Valid_Username(char *arr);
 int Is_Good_Char(char c);
 void Cleanup(char *arr);
+
 
 int main(void) {
     char username[USER_NAME_LENGTH];
@@ -27,35 +29,11 @@ int main(void) {
     // ################################################
     // #####  VERIFY USERNAME  #####
     // ################################################
-    Get_User_Data("Enter username: ", username, USER_NAME_LENGTH);
-
-    printf("Cleaning up username\n");
+    Get_User_Data("Enter username: ", username, USER_NAME_LENGTH);   
     Cleanup(username);
 
-    // username must begin with letter [A-Z, a-z]
-    /* Add your code here */
-    if (!Is_Letter(*username)) {
-        printf("Invalid username starting character\n");
-    }else{
-        printf("First letter valid\n");
-    }
-
-    // max 32 charcters
-    /* Add your code here */
-    // if (!Is_Valid_Username(username)) {
-
-    // }
-
-    printf("Checking for valid username...\n");
+    
     Is_Valid_Username(username);
-
-    printf("Max 32 charcters\n");
-
-    // may contain only letters, underscore, or digits [A-Z, a-z, _, 0-9]
-    /* Add your code here */
-    printf("Invalid character in username\n");
-
-    printf("Username formatting is correct\n");
 
     /**
      * 
@@ -147,7 +125,7 @@ int Is_Letter(char c) {
 }
 
 int Is_Good_Char(char c) {
-    if (Is_Letter(c) || (c > '0' && c < '9') || (c == '_')) {
+    if (Is_Letter(c) || (c >= '0' && c <= '9') || (c == '_')) {
         return 1;
     }
     return 0;
@@ -158,22 +136,33 @@ int Is_Valid_Username(char *arr) {
     int sym = 0;
     char *p = arr;
 
+    // loops through the username to get length and check for symbols
     while (*p != '\0') {
-        printf("%c \t %i\n", *p, *p);
-        if (!Is_Good_Char(*p)) 
-                sym = 1; 
+        // printf("%c \t %i\n", *p, *p);
+        if (!Is_Good_Char(*p))
+            sym = 1;
         len++;
         p++;
     }
 
-    printf("length of username is: %i\n", len);
-    if (sym) {printf("illegal\n");
-    } else {printf("pass\n");
-    }
+    // if username has good starting letter
+    if (!Is_Letter(*arr)) printf("Invalid username starting character\n");
+
+    // if username is longer than 32 chars
+    else if (len > 32) printf("Max 32 charcters\n");
+
+    // if username has a symbol
+    else if (sym) printf("Invalid character in username\n");
+
+    // if passes all tests
+    else printf("Username formatting is correct\n");
 }
 
+/**
+ * Goes through each input array of chars and removes '\n' at the end
+ **/
 void Cleanup(char *arr) {
-    while (*arr){
+    while (*arr) {
         if (*arr == '\n') *arr = '\0';
         arr++;
     }
