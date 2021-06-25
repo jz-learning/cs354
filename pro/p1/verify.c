@@ -14,6 +14,9 @@
 void Get_User_Data(char *message, char *username, const int MAX_LENGTH);
 /* add your function prototypes here */
 int Is_Letter(char c);
+int Is_Valid_Username(char *arr);
+int Is_Good_Char(char c);
+void Cleanup(char *arr);
 
 int main(void) {
     char username[USER_NAME_LENGTH];
@@ -25,14 +28,27 @@ int main(void) {
     // #####  VERIFY USERNAME  #####
     // ################################################
     Get_User_Data("Enter username: ", username, USER_NAME_LENGTH);
+
+    printf("Cleaning up username\n");
+    Cleanup(username);
+
     // username must begin with letter [A-Z, a-z]
     /* Add your code here */
-    if (!Is_Letter(username[0])) {
+    if (!Is_Letter(*username)) {
         printf("Invalid username starting character\n");
+    }else{
+        printf("First letter valid\n");
     }
 
     // max 32 charcters
     /* Add your code here */
+    // if (!Is_Valid_Username(username)) {
+
+    // }
+
+    printf("Checking for valid username...\n");
+    Is_Valid_Username(username);
+
     printf("Max 32 charcters\n");
 
     // may contain only letters, underscore, or digits [A-Z, a-z, _, 0-9]
@@ -41,6 +57,8 @@ int main(void) {
 
     printf("Username formatting is correct\n");
 
+    /**
+     * 
     // ################################################
     // #####  VERIFY EMAIL ADDRESS  #####
     // ################################################
@@ -98,8 +116,10 @@ int main(void) {
     printf("Passwords do not match\n");
 
     // Checking two passwords
-    if (password_1 != password_2)
+    if (password_1 == password_2)
         printf("Passwords match\n");
+
+    **/
 
     return 0;
 }
@@ -111,6 +131,11 @@ void Get_User_Data(char *message, char *data, const int MAX_LENGTH) {
 }
 
 /* add your function definitions here */
+
+/**
+ * 1 when the char is a letter
+ * 0 otherwise
+ */
 int Is_Letter(char c) {
     if (c >= 'A' && c <= 'Z')
         return 1;
@@ -119,4 +144,37 @@ int Is_Letter(char c) {
         return 1;
 
     return 0;
+}
+
+int Is_Good_Char(char c) {
+    if (Is_Letter(c) || (c > '0' && c < '9') || (c == '_')) {
+        return 1;
+    }
+    return 0;
+}
+
+int Is_Valid_Username(char *arr) {
+    int len = 0;
+    int sym = 0;
+    char *p = arr;
+
+    while (*p != '\0') {
+        printf("%c \t %i\n", *p, *p);
+        if (!Is_Good_Char(*p)) 
+                sym = 1; 
+        len++;
+        p++;
+    }
+
+    printf("length of username is: %i\n", len);
+    if (sym) {printf("illegal\n");
+    } else {printf("pass\n");
+    }
+}
+
+void Cleanup(char *arr) {
+    while (*arr){
+        if (*arr == '\n') *arr = '\0';
+        arr++;
+    }
 }
