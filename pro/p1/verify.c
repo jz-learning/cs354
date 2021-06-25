@@ -29,7 +29,7 @@ int main(void) {
     // ################################################
     Get_User_Data("Enter username: ", username, USER_NAME_LENGTH);
 
-    printf("Cleaning up username\n");
+    printf("Cleaning up username......\n");
     Cleanup(username);
 
     // username must begin with letter [A-Z, a-z]
@@ -46,7 +46,7 @@ int main(void) {
 
     // }
 
-    printf("Checking for valid username...\n");
+    printf("Checking for valid username......\n");
     Is_Valid_Username(username);
 
     printf("Max 32 charcters\n");
