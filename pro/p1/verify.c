@@ -16,15 +16,17 @@ void Get_User_Data(char *message, char *username, const int MAX_LENGTH);
 
 /* add your function prototypes here */
 int Is_Letter(char c);
-void Is_Valid_Username(char *arr);
+int Is_Valid_Username(char *arr);
 int Is_Good_Char(char c);
 void Cleanup(char *arr);
-void Is_Valid_Email(char *arr);
-void Is_Valid_Pass(char *arr, char *arr2);
+int Is_Valid_Email(char *arr);
+int Is_Valid_Pass(char *arr);
 int Is_Upper(char c);
 int Is_Lower(char c);
 int Has_Lower(char *arr);
 int Has_Upper(char *arr);
+void Pass_Match(char *password_1, char *password_2);
+
 
 int main(void) {
     char username[USER_NAME_LENGTH];
@@ -87,22 +89,12 @@ int main(void) {
     // #####  VERIFY PASSWORD  #####
     // ################################################
     Get_User_Data("Enter password: ", password_1, PASSWORD_LENGTH);
-    Get_User_Data("Confirm password: ", password_2, PASSWORD_LENGTH);
-    // May use any character except spaces // example "my password" is invalid
-    // passwords must contain at least 8 characters // example "Password" has 8 characters and is valid
-    // passwords have at most 16 characters // example "1234567890Abcdef" has 16 characters and is valid
-    // Must contain at least one upper case character [A-Z]
-    // Must contain at least one lower case character [a-z]
-    // Original Password and the Reentered Password must match
     Cleanup(password_1);
+    if(!Is_Valid_Pass(password_1)) return 0;
+
+    Get_User_Data("Confirm password: ", password_2, PASSWORD_LENGTH);
     Cleanup(password_2);
-
-    Is_Valid_Pass(password_1, password_2);
-
-    // Error messages
-
-    // Checking two passwords
-
+    Pass_Match(password_1, password_2);
     return 0;
 }
 
@@ -137,7 +129,7 @@ int Is_Good_Char(char c) {
     return 0;
 }
 
-void Is_Valid_Username(char *arr) {
+int Is_Valid_Username(char *arr) {
     int len = 0;
     int sym = 0;
     char *p = arr;
@@ -180,11 +172,10 @@ void Cleanup(char *arr) {
 void Is_Valid_Email(char *arr) {
 }
 
-void Is_Valid_Pass(char *arr, char *arr2) {
+int Is_Valid_Pass(char *arr) {
     int space = 0;
     int len = 0;
     char *p1 = arr;
-    char *p2 = arr2;
 
     while (*arr) {
         // printf("%c \t %i\n", *p, *p);
@@ -209,11 +200,15 @@ void Is_Valid_Pass(char *arr, char *arr2) {
     else if (!Has_Lower(p1))
         printf("Password must contain at least one lower case character\n");
 
-    else if (strcmp(p1, p2))
-        printf("Passwords do not match\n");
+    else return 1;
+    return 0;
+}
 
+void Pass_Match(char *pass1, char *pass2){
+    if(strcmp(pass1, pass2))
+        printf("Passwords do not match\n");
     else
-        printf("Passwords match\n");
+        return;
 }
 
 int Is_Upper(char c) {
