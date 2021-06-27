@@ -27,7 +27,6 @@ int Has_Lower(char *arr);
 int Has_Upper(char *arr);
 void Pass_Match(char *password_1, char *password_2);
 
-
 int main(void) {
     char username[USER_NAME_LENGTH];
     char email[EMAIL_LENGTH];
@@ -41,60 +40,59 @@ int main(void) {
     // Cleanup(username);
 
     // // checks for good username
-    // Is_Valid_Username(username);
+    // if (!Is_Valid_Username(username)) return 0;
 
-    /**
-     * 
     // ################################################
     // #####  VERIFY EMAIL ADDRESS  #####
     // ################################################
     Get_User_Data("Enter email address: ", email, EMAIL_LENGTH);
     Cleanup(email);
 
-    Is_Valid_Email(email);
+    printf("Checking email......\n");
+
+    if (!Is_Valid_Email(email)) return 0;
+
+    printf("##### VALID EMAIL #####\n");
     // email address have 4 parts in this order
-        // name
-            // max 32 characters
-            // must start with letter
-            // may contain [letters or digits]
-        // @ symbol
-        // domain name
-            // max of 64 characters
-            // consists of a domain name and subdomains separated by . 
-            // each domain or subdomain  must begin with a letter
-            // domain and subdomains may contain only [letters, digits]
-        // top-level domain 
-            // must be [.edu, .com, .net]
-            
+    // name
+    // max 32 characters
+    // must start with letter
+    // may contain [letters or digits]
+    // @ symbol
+    // domain name
+    // max of 64 characters
+    // consists of a domain name and subdomains separated by .
+    // each domain or subdomain  must begin with a letter
+    // domain and subdomains may contain only [letters, digits]
+    // top-level domain
+    // must be [.edu, .com, .net]
+
+    // things needed (@   .   .)
+
     // Error messages
     // name
-    printf("Name missing\n");  // example @domain.com
-    printf("Name must begin with letter\n");
-    printf("Name must have fewer than 32 characters\n");
-    printf("Invalid character in name\n");
-    // @ symbol
-    printf("missing @\n");
-    // domain name
-    printf("Domain missing\n"); // example mike@.edu
-    printf("Maximum of 64 characters in domain\n");
-    printf("Domain or subdomain must begin with letter\n");
-    printf("Invalid character in domain\n");
-    // top level domain
-    printf("Top level domain must be .edu, .com, or .net\n");
-    
-    printf("Email formatting is correct\n");
-    **/
+    // // @ symbol
+    // // domain name
+    // printf("Domain missing\n");  // example mike@.edu
+    // printf("Maximum of 64 characters in domain\n");
+    // printf("Domain or subdomain must begin with letter\n");
+    // printf("Invalid character in domain\n");
+    // // top level domain
+    // printf("Top level domain must be .edu, .com, or .net\n");
+
+    // printf("Email formatting is correct\n");
 
     // ################################################
     // #####  VERIFY PASSWORD  #####
     // ################################################
-    Get_User_Data("Enter password: ", password_1, PASSWORD_LENGTH);
-    Cleanup(password_1);
-    if(!Is_Valid_Pass(password_1)) return 0;
+    // Get_User_Data("Enter password: ", password_1, PASSWORD_LENGTH);
+    // Cleanup(password_1);
+    // if(!Is_Valid_Pass(password_1)) return 0;
 
-    Get_User_Data("Confirm password: ", password_2, PASSWORD_LENGTH);
-    Cleanup(password_2);
-    Pass_Match(password_1, password_2);
+    // Get_User_Data("Confirm password: ", password_2, PASSWORD_LENGTH);
+    // Cleanup(password_2);
+    // Pass_Match(password_1, password_2);
+
     return 0;
 }
 
@@ -129,13 +127,20 @@ int Is_Good_Char(char c) {
     return 0;
 }
 
+int Is_Letter_Digit(char c) {
+    if (Is_Letter(c) || (c >= '0' && c <= '9')) {
+        return 1;
+    }
+    return 0;
+}
+
 int Is_Valid_Username(char *arr) {
     int len = 0;
     int sym = 0;
     char *p = arr;
 
     // loops through the username to get length and check for symbols
-    while (*p != '\0') {
+    while (*p) {
         // printf("%c \t %i\n", *p, *p);
         if (!Is_Good_Char(*p))
             sym = 1;
@@ -155,8 +160,11 @@ int Is_Valid_Username(char *arr) {
         printf("Invalid character in username\n");
 
     // if passes all tests
-    else
+    else {
         printf("Username formatting is correct\n");
+        return (1);
+    }
+    return 0;
 }
 
 /**
@@ -169,7 +177,82 @@ void Cleanup(char *arr) {
     }
 }
 
-void Is_Valid_Email(char *arr) {
+int Is_Valid_Email(char *arr) {
+    int len = 0;
+    char *head = arr;
+    char *at = 0;
+    char *dot = 0;
+    char *end = 0;
+
+    // check conditions
+    int validLetter = 1;
+
+    // check first letter
+    if (*arr == '@' || *arr == '.') {
+        printf("Name missing\n");  // example @domain.com
+        return 0;
+    } else if (!Is_Letter(*arr)) {
+        printf("Name must begin with letter\n");
+        return 0;
+    }
+
+    // get pointer to each important symbol
+    while (*arr) {
+        // prints each char
+        printf("%c\t %p\n", *arr, arr);
+
+        // finds location of @
+        if (*arr == '@') at = arr;
+
+        // finds location of first dot
+        else if (*arr == '.' && !dot)
+            dot = arr;
+
+        // finds location of secont dot
+        //if(*arr == '.' && )
+
+        arr++;
+    }
+
+    // location of endstring
+    end = arr++;
+
+    printf("\n===========================================\n\n");
+
+    printf("@ at: %p\n", at);
+    printf("first . at: %p\n", dot);
+    printf("ends at: %p\n", end);
+    printf("size is: %d\n\n", end - head);
+
+    // testing name lenth if there's no @
+    if (!at && !dot && (end - head > 32)) {
+        printf("Name must have fewer than 32 characters\n");
+        return 0;
+    } else if (!at && dot && (dot - head > 32)) {
+        printf("Name must have fewer than 32 characters\n");
+        return 0;
+    }
+
+    // test name length if there is @
+    else if (at && at - head > 32) {
+        printf("Name must have fewer than 32 characters\n");
+        return 0;
+    }
+
+    // check if name valid
+    char *temp = head;
+    if (at) {
+        while (*temp != '@') {
+            if (!Is_Letter_Digit(*temp)) {
+                printf("Invalid character in name\n");
+                return 0;
+            }
+            temp++;
+        }
+    } else {
+        printf("missing @\n");
+        return 0;
+    }
 }
 
 int Is_Valid_Pass(char *arr) {
@@ -200,12 +283,13 @@ int Is_Valid_Pass(char *arr) {
     else if (!Has_Lower(p1))
         printf("Password must contain at least one lower case character\n");
 
-    else return 1;
+    else
+        return 1;
     return 0;
 }
 
-void Pass_Match(char *pass1, char *pass2){
-    if(strcmp(pass1, pass2))
+void Pass_Match(char *pass1, char *pass2) {
+    if (strcmp(pass1, pass2))
         printf("Passwords do not match\n");
     else
         return;
