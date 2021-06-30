@@ -51,8 +51,6 @@ int main(void) {
     Get_User_Data("Enter email address: ", email, EMAIL_LENGTH);
     Cleanup(email);
 
-//    printf("Checking email......\n");
-
     if (!Is_Valid_Email(email)) return 0;
 
     printf("Email formatting is correct\n");
@@ -67,8 +65,8 @@ int main(void) {
     // check for entering the right password twice
     Get_User_Data("Confirm password: ", password_2, PASSWORD_LENGTH);
     Cleanup(password_2);
-    
-    if(!Pass_Match(password_1, password_2)) return 0;
+
+    if (!Pass_Match(password_1, password_2)) return 0;
 
     printf("Passwords match\n");
     return 0;
@@ -162,11 +160,20 @@ int Is_Valid_Email(char *arr) {
     char *dot = 0;
     char *end = 0;
 
-    // check conditions
+    // check @ conditions
     int has_at = 0;
+    char *cur_at = head;
+    while (*cur_at) {
+        // finds location of @
+        if (*cur_at == '@') {
+            at = cur_at;
+            has_at = 1;
+        }
+        cur_at++;
+    }
 
     // check first letter
-    if (*arr == '@' || *arr == '.') {
+    if (*arr == '@' || (*arr == '.' && !has_at)) {
         printf("Name missing\n");  // example @domain.com
         return 0;
     } else if (!Is_Letter(*arr)) {
@@ -176,30 +183,14 @@ int Is_Valid_Email(char *arr) {
 
     // get pointer to each important stuff
     while (*arr) {
-        // prints each char
-//       printf("%c\t %p\n", *arr, arr);
-
-        // finds location of @
-        if (*arr == '@') {
-            at = arr;
-            has_at = 1;
-        }
-
         // finds location of first dot
-        else if (*arr == '.' && !dot)
+        if (*arr == '.' && !dot)
             dot = arr;
 
         arr++;
     }
     // location of endstring
     end = arr++;
-
- //   printf("\n===========================================\n\n");
-
-    // printf("@ at: %p\n", at);
-    // printf("first . at: %p\n", dot);
-    // printf("ends at: %p\n", end);
-    // printf("size is: %d\n\n", end - head);
 
     // testing name lenth if there's no @
     if (!at && !dot && (end - head > 32)) {
@@ -231,17 +222,6 @@ int Is_Valid_Email(char *arr) {
         return 0;
     }
 
-    // check if has domain
-    if (*(at + 1) == '.') {
-        printf("Domain missing\n");
-        return 0;
-    }
-
-    if (end - at - 5 > 64) {
-        printf("Maximum of 64 characters in domain\n");
-        return 0;
-    }
-
     // getting all of the dots/sudomains
     char *dot_loc[64];
     char *curr = head;
@@ -255,22 +235,31 @@ int Is_Valid_Email(char *arr) {
         curr++;
     }
 
-//    printf("Checks the one char right after each dot to be a letter\n");
+    // check if has domain
+    if (*(at + 1) == '.' && ct == 1) {
+        printf("Domain missing\n");
+        return 0;
+    }
+
+    if (end - at - 5 > 64) {
+        printf("Maximum of 64 characters in domain\n");
+        return 0;
+    }
+
     // Checks the one char right after each dot to be a letter
     for (int i = 0; i < ct; i++) {
-        //printf("%c \t %p\n", *dot_loc[i], dot_loc[i]);
         // incriments 1 from a dot position
         if (!Is_Letter(*(dot_loc[i] + 1)) || !Is_Letter(*(at + 1))) {
             printf("Domain or subdomain must begin with letter\n");
             return 0;
         }
     }
-//    printf("Subdomains all good\n");
+
     // looping through all domains to check for invalid characters
     char *temp2 = head;
     while (*temp2) {
         if (temp2 > at && temp2 < end) {
-            if (!(Is_Letter_Digit(*temp2) || '.')) {
+            if (!(Is_Letter_Digit(*temp2) || *temp2 == '.')) {
                 printf("Invalid character in domain, %c\n", *temp2);
                 return 0;
             }
@@ -332,10 +321,10 @@ int Is_Valid_Pass(char *arr) {
 }
 
 int Pass_Match(char *pass1, char *pass2) {
-    if (strcmp(pass1, pass2)){
+    if (strcmp(pass1, pass2)) {
         printf("Passwords do not match\n");
         return 0;
-    }else
+    } else
         return 1;
 }
 
