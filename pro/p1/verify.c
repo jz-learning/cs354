@@ -26,6 +26,9 @@ int Is_Lower(char c);
 int Has_Lower(char *arr);
 int Has_Upper(char *arr);
 void Pass_Match(char *password_1, char *password_2);
+void printarr(char *arr);
+int Is_Top_Dom(char *TD);
+int streql(char *str1, char *str2);
 
 int main(void) {
     char username[USER_NAME_LENGTH];
@@ -78,7 +81,6 @@ int main(void) {
     // printf("Domain or subdomain must begin with letter\n");
     // printf("Invalid character in domain\n");
     // // top level domain
-    // printf("Top level domain must be .edu, .com, or .net\n");
 
     // printf("Email formatting is correct\n");
 
@@ -196,7 +198,7 @@ int Is_Valid_Email(char *arr) {
         return 0;
     }
 
-    // get pointer to each important symbol
+    // get pointer to each important stuff
     while (*arr) {
         // prints each char
         printf("%c\t %p\n", *arr, arr);
@@ -213,9 +215,9 @@ int Is_Valid_Email(char *arr) {
 
         arr++;
     }
-
     // location of endstring
     end = arr++;
+
 
     printf("\n===========================================\n\n");
 
@@ -251,6 +253,30 @@ int Is_Valid_Email(char *arr) {
         }
     } else {
         printf("missing @\n");
+        return 0;
+    }
+
+
+
+
+
+
+
+    // check top level domain
+    if(!Is_Top_Dom(end-4))
+        return 0;
+
+}
+
+int Is_Top_Dom(char *TD) {
+    char net[] = ".net";
+    char com[] = ".com";
+    char edu[] = ".edu";
+
+    if (streql(TD, net) || streql(TD, com) || streql(TD, edu))
+        return 1;
+    else {
+        printf("Top level domain must be .edu, .com, or .net\n");
         return 0;
     }
 }
@@ -323,4 +349,18 @@ int Has_Upper(char *arr) {
         arr++;
     }
     return 0;
+}
+
+void printarr(char *arr){
+    printf("\n[");
+    while (*arr)
+    {
+        printf("%c, ", *arr);
+        arr++;
+    }
+    printf("]\n");
+}
+
+int streql(char *str1, char *str2){
+    return !strcmp(str1, str2);
 }
