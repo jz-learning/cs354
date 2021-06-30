@@ -51,7 +51,7 @@ int main(void) {
     Get_User_Data("Enter email address: ", email, EMAIL_LENGTH);
     Cleanup(email);
 
-    printf("Checking email......\n");
+//    printf("Checking email......\n");
 
     if (!Is_Valid_Email(email)) return 0;
 
@@ -177,7 +177,7 @@ int Is_Valid_Email(char *arr) {
     // get pointer to each important stuff
     while (*arr) {
         // prints each char
-        printf("%c\t %p\n", *arr, arr);
+//       printf("%c\t %p\n", *arr, arr);
 
         // finds location of @
         if (*arr == '@') {
@@ -189,23 +189,17 @@ int Is_Valid_Email(char *arr) {
         else if (*arr == '.' && !dot)
             dot = arr;
 
-        // finds location of secont dot
-        // if(*arr == '.' && )
-
-        // length of domain
-        //if (has_at)
-
         arr++;
     }
     // location of endstring
     end = arr++;
 
-    printf("\n===========================================\n\n");
+ //   printf("\n===========================================\n\n");
 
-    printf("@ at: %p\n", at);
-    printf("first . at: %p\n", dot);
-    printf("ends at: %p\n", end);
-    printf("size is: %d\n\n", end - head);
+    // printf("@ at: %p\n", at);
+    // printf("first . at: %p\n", dot);
+    // printf("ends at: %p\n", end);
+    // printf("size is: %d\n\n", end - head);
 
     // testing name lenth if there's no @
     if (!at && !dot && (end - head > 32)) {
@@ -261,21 +255,18 @@ int Is_Valid_Email(char *arr) {
         curr++;
     }
 
-    printf("Checks the one char right after each dot to be a letter\n");
+//    printf("Checks the one char right after each dot to be a letter\n");
     // Checks the one char right after each dot to be a letter
     for (int i = 0; i < ct; i++) {
-        printf("%c \t %p\n", *dot_loc[i], dot_loc[i]);
+        //printf("%c \t %p\n", *dot_loc[i], dot_loc[i]);
         // incriments 1 from a dot position
         if (!Is_Letter(*(dot_loc[i] + 1)) || !Is_Letter(*(at + 1))) {
             printf("Domain or subdomain must begin with letter\n");
             return 0;
         }
     }
-
-
-    printf("Subdomains all good\n");
-
-
+//    printf("Subdomains all good\n");
+    // looping through all domains to check for invalid characters
     char *temp2 = head;
     while (*temp2) {
         if (temp2 > at && temp2 < end) {
