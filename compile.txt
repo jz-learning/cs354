@@ -1,4 +1,4 @@
 gcc -o verify verify.c -m32 -Wall
 
 running tests:
-for i in `seq 1 5`; do echo $i ; ./verify < test-files/test$i.txt ; echo ; done
+for i in `seq 1 5`; do echo $i ; ./verify < /tests/emailTests/$i.txt ; echo ; done
