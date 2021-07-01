@@ -1,0 +1,2 @@
+Enter username: Username formatting is correct
+Enter email address: Maximum of 64 characters in domain

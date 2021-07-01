@@ -1,4 +1,28 @@
 gcc -o verify verify.c -m32 -Wall
 
-running tests:
-for i in `seq 1 5`; do echo $i ; ./verify < /tests/emailTests/$i.txt ; echo ; done
+running tests email:
+for i in `seq 1 24`; 
+	do echo $i ; 
+	rm -f results/emailResult/r$i.txt
+	./verify < tests/emailTests/t$i >>results/emailResult/r$i.txt; 
+	diff results/emailResult/r$i.txt tests/emailTests/o$i ; 
+	echo ; 
+done
+
+password:
+for i in `seq 1 7`; 
+	do echo $i ; 
+	rm -f results/passResult/r$i.txt
+	./verify < tests/passTests/t$i >> results/passResult/r$i.txt; 
+	diff results/passResult/r$i.txt tests/passTests/o$i ; 
+	echo ; 
+done
+
+username:
+for i in `seq 1 5`; 
+	do echo $i ; 
+	rm -f results/userResult/r$i.txt
+	./verify < tests/userTests/t$i >> results/userResult/r$i.txt; 
+	diff results/userResult/r$i.txt tests/userTests/o$i ; 
+	echo ; 
+done
