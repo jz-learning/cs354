@@ -154,7 +154,7 @@ void Cleanup(char *arr) {
 }
 
 int Is_Valid_Email(char *arr) {
-    int len = 0;
+    //int len = 0;
     char *head = arr;
     char *at = 0;
     char *dot = 0;
@@ -219,7 +219,6 @@ int Is_Valid_Email(char *arr) {
         }
     } else {
         while (*temp && (temp != end)) {
-            printf("all chars: %c\n", *temp);
             if (!(Is_Letter_Digit(*temp) || *temp == '.')) {
                 printf("Invalid character in name\n");
                 return 0;
@@ -255,13 +254,18 @@ int Is_Valid_Email(char *arr) {
         return 0;
     }
 
+    if (!Is_Letter(*(at + 1))) {
+        printf("Domain or subdomain must begin with letter\n");
+        return 0;
+    }
+
     // Checks the one char right after each dot to be a letter
     for (int i = 0; i < ct; i++) {
         if (i == ct - 1)
             break;
 
         // incriments 1 from a dot position
-        if (!Is_Letter(*(dot_loc[i] + 1)) || !Is_Letter(*(at + 1))) {
+        if (!Is_Letter(*(dot_loc[i] + 1))) {
             printf("Domain or subdomain must begin with letter\n");
             return 0;
         }
