@@ -1,9 +1,9 @@
 // James Zhang
-// WISC NETID
 // jzhang924
-// WISC ID NUMBER
-// SUBMISSION DATE (MADISON TIME ZONE)
-// COMMENTS FOR THE GRADER (OPTIONAL)
+// jzhang924
+// 9079769411
+// 07/01/2021
+// N/A
 
 #include <stdio.h>
 #include <string.h>
