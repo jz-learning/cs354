@@ -148,7 +148,7 @@ int Is_Valid_Username(char *arr) {
  **/
 void Cleanup(char *arr) {
     while (*arr) {
-        if (*arr == '\n' || *arr == ' ') *arr = '\0';
+        if (*arr == '\n') *arr = '\0';
         arr++;
     }
 }
@@ -219,7 +219,7 @@ int Is_Valid_Email(char *arr) {
         }
     } else {
         while (*temp && (temp != end)) {
-            if (!(Is_Letter_Digit(*temp) || *temp == '.')) {
+            if (!(Is_Letter_Digit(*temp) || *temp == '.' || *temp == ' ')) {
                 printf("Invalid character in name\n");
                 return 0;
             }
