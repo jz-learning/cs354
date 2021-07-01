@@ -218,6 +218,14 @@ int Is_Valid_Email(char *arr) {
             temp++;
         }
     } else {
+        while (*temp) {
+            if (!Is_Letter_Digit(*temp)) {
+                printf("Invalid character in name\n");
+                return 0;
+            }
+            temp++;
+        }
+
         printf("missing @\n");
         return 0;
     }
