@@ -1,5 +1,5 @@
 // James Zhang
-// jzhang924
+// JAMES ZHANG
 // jzhang924
 // 9079769411
 // 07/01/2021
@@ -145,6 +145,7 @@ int Is_Valid_Username(char *arr) {
 
 /**
  * Goes through each input array of chars and removes '\n' at the end
+ * with help from https://piazza.com/class/kpwmq1ddiu1e5?cid=39
  **/
 void Cleanup(char *arr) {
     while (*arr) {
