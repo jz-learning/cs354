@@ -4,20 +4,21 @@
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         fprintf(stderr, "USAGE: %s <num_elems>\n", argv[0]);
-		exit(1);
+        exit(1);
     }
 
+    // atoi - takes acii and tunrs into int
     int num = atoi(argv[1]);
     printf("num = %d\n", num);
 
-	// create a variable length array (vla)
+    // create a variable length array (vla)
     int a[num];
 
     for (int i = 0; i < num; ++i) {
         a[i] = 0;
     }
 
-    for (int i = 0; i < num; ++i) {
+    for (int i = 0; i < num; i++) {
         printf("a[%d] = %d\n", i, a[i]);
     }
 
