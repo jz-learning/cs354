@@ -3,11 +3,11 @@
 int main() {
     FILE *fp;
 
-    fp = fopen("bar.bin", "wb");
-    int num = 0x12345678;
+    fp = fopen("bar.txt", "wb");
+    int num = 0x123;
     fwrite(&num, sizeof(int), 1, fp);
     fclose(fp);
- 
+
     fp = fopen("bar.bin", "rb");
     int readNum;
     fread(&readNum, sizeof(int), 1, fp);

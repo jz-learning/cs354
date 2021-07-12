@@ -9,6 +9,10 @@ int main() {
 
     fp = fopen("gates_quote.txt", "r");
 
+    // ! Make sure file exists
+    if (fp == NULL) {
+        return 1;
+    }
 
     while (fgets(buff, MAX, fp)) {
         printf("%s", buff);
