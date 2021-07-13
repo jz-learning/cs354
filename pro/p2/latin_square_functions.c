@@ -8,6 +8,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX 95
+/**
+ * This functions returns the character of an array at a specific index
+ * 
+ * @param arr the pointer to the array
+ * @param idx the target index
+ * @return    A char at the specific index 
+ * 
+ */
+char at(char *arr, int idx) {
+    return *(arr + idx * sizeof(char));
+}
 
 /** 
  * This function takes the name of the file containing the latin square puzzle
@@ -32,9 +44,35 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
     //   4b) reserve an array of characters for each row
     // 5) fill in the latin_square data structure
     // 6) close the file
+    //Reserve_Memory(latin_square_in)
+    char buff[MAX];
+    char *p = buff;
+    FILE *f = fopen(filename, "r");
+
+    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
+    printf("p is at: %p\t starts at: %p\n", &p, p);
+
+    if (f == NULL) return;
+
+    while (fgets(buff, MAX, f)) {
+        printf("%s", buff);
+    }
+
+    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
+    printf("p is at: %p\t starts at: %p\n", &p, p);
+
+    while (*p) {
+        printf("\np is: %p, value is: %c \n", p, *p);
+        printf("%c", *p);
+        p++;
+    }
+    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
+    printf("p is at: %p\t starts at: %p\n", &p, p);
+
+    printf("Hello\n");
+
     return;
 }
-
 
 /** 
  * This function checks to see that exactly n symbols are used and that each symbol is used exactly n times.

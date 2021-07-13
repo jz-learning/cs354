@@ -39,8 +39,8 @@ int main(int argc, char *argv[] ) {
 
     /**
      * * Declare variables
-     * n            ::  the dimensions of the square 
-     * latin_square :: represents the puzzle.  This variable is a pointer to a pointer.  
+     * @param n            ::  the dimensions of the square 
+     * @param latin_square :: represents the puzzle.  This variable is a pointer to a pointer.  
      * You can think of it as an array that contains pointers to arrays of characters for each row.
      */
     int n=0;
