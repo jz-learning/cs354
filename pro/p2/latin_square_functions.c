@@ -9,25 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-// use this function to verify that you have correctly read the latin square puzle
-void Print_Matrix(int n, char **latin_square) {
-    if (latin_square == NULL) {
-        printf("Print_Square - latin_square is NULL\n");
-        return;
-    }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++)
-            printf("%c", latin_square[i][j]);
-        printf("\n");
-    }
-}
-
-// void Reserve_Memory(char ***latin_square_in, int *n) {
-//     *latin_square_in = malloc(*n * sizeof(char *));
-//     for (int i = 0; i < *n; i++) {
-//         *(*latin_square_in + i * sizeof(char)) = malloc(*n * sizeof(char));
-//     }
-// }
+// ascii code of the new line character
+#define NL 10
 
 /** 
  * This function takes the name of the file containing the latin square puzzle
@@ -39,39 +22,29 @@ void Print_Matrix(int n, char **latin_square) {
  * @param latin_square_in :: a pointer to the latin square variable in main
  */
 void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
-    // there are many approaches that will work to read in the puzzle data
-    // you will need to do at least the following
-    // 1) open the file
-    // 2) read in the text from the file
-    // 3) figure out the dimensions of the puzzle (n)
-    //   3a) note the puzzle will always be square - we will not test any input that is not nxn.
-    //   3b) we will only test with puzzles using valid symbols
-    //   3c) a valid symbol has ascii code 33 to 126
-    // 4) reserve memory for the latin_square with malloc. This requires 2 steps
-    //   4a) reserve an array of pointers to the rows
-    //   4b) reserve an array of characters for each row
-    // 5) fill in the latin_square data structure
-    // 6) close the file
-
     // Open file and make sure it exists
     FILE *f = fopen(filename, "r");
     if (f == NULL) return;
 
     int c;
+
+    // For keeping count of #of chars in the first row
     int temp = 0;
 
     // Reads file to find the size of the matrix
     while ((c = getc(f)) != EOF) {
-        // Calculates length of top row (size of array)
-        if (c == 10 && !*n) *n = temp;
+        // After reaching new line, assign temp to size (n)
+        if (c == NL && !*n) *n = temp;
         temp++;
     }
     fclose(f);
+
+    // Assigns n to size for clearity and readibility
     int size = *n;
-    printf("The size of the array is: %i\n\n", size);
+    //? printf("The size of the array is: %i\n\n", size);
 
     // TODO allocate memory based on size
-    printf("Allocating memory for matrix\n\n");
+    //? printf("Allocating memory for matrix\n\n");
 
     char **matrix = malloc(size * sizeof(char *));
     for (int i = 0; i < size; i++) {
@@ -85,13 +58,19 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
     *latin_square_in = matrix;
 
     // TODO assign matrix to reserved memory
-    printf("Assigning chars to the matrix in heap\n");
+    //? printf("Assigning chars to the matrix in heap\n");
+
     f = fopen(filename, "r");
+    // Initializing index variables
     int i = 0;
     int j = 0;
+    // Reads each character of the grid and adds to matrix
     while ((c = getc(f)) != EOF) {
-        printf("%c", c);
-        if (c == 10) {
+        //? printf("%c", c);
+
+        // When reaching an end line character go to new row
+        // and reset col count
+        if (c == NL) {
             i++;
             j = 0;
             continue;
@@ -100,7 +79,6 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
         j++;
     }
     fclose(f);
-
     return;
 }
 

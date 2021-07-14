@@ -45,11 +45,10 @@ int main(int argc, char *argv[]) {
     char **latin_square = NULL;
     int alphabet_valid, rows_cols_valid;
 
-    // Read the Latin Square file
+    //* Read the Latin Square file
     Read_Latin_Square_File(argv[1], &latin_square, &n);
 
-    // Print the Latin Square;
-    printf("About to print the square:\nSize is: %i\n", n);
+    //* Print the Latin Square;
     Print_Latin_Square(n, latin_square);
 
     // Verify Alphabet
