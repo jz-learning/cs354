@@ -8,18 +8,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX 95
-/**
- * This functions returns the character of an array at a specific index
- * 
- * @param arr the pointer to the array
- * @param idx the target index
- * @return    A char at the specific index 
- * 
- */
-char at(char *arr, int idx) {
-    return *(arr + idx * sizeof(char));
+
+// use this function to verify that you have correctly read the latin square puzle
+void Print_Matrix(int n, char **latin_square) {
+    if (latin_square == NULL) {
+        printf("Print_Square - latin_square is NULL\n");
+        return;
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            printf("%c", latin_square[i][j]);
+        printf("\n");
+    }
 }
+
+// void Reserve_Memory(char ***latin_square_in, int *n) {
+//     *latin_square_in = malloc(*n * sizeof(char *));
+//     for (int i = 0; i < *n; i++) {
+//         *(*latin_square_in + i * sizeof(char)) = malloc(*n * sizeof(char));
+//     }
+// }
 
 /** 
  * This function takes the name of the file containing the latin square puzzle
@@ -44,32 +52,54 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
     //   4b) reserve an array of characters for each row
     // 5) fill in the latin_square data structure
     // 6) close the file
-    //Reserve_Memory(latin_square_in)
-    char buff[MAX];
-    char *p = buff;
+
+    // Open file and make sure it exists
     FILE *f = fopen(filename, "r");
-
-    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
-    printf("p is at: %p\t starts at: %p\n", &p, p);
-
     if (f == NULL) return;
 
-    while (fgets(buff, MAX, f)) {
-        printf("%s", buff);
+    int c;
+    int temp = 0;
+
+    // Reads file to find the size of the matrix
+    while ((c = getc(f)) != EOF) {
+        // Calculates length of top row (size of array)
+        if (c == 10 && !*n) *n = temp;
+        temp++;
+    }
+    fclose(f);
+    int size = *n;
+    printf("The size of the array is: %i\n\n", size);
+
+    // TODO allocate memory based on size
+    printf("Allocating memory for matrix\n\n");
+
+    char **matrix = malloc(size * sizeof(char *));
+    for (int i = 0; i < size; i++) {
+        *(matrix + i * sizeof(char)) = malloc(size * sizeof(char));
     }
 
-    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
-    printf("p is at: %p\t starts at: %p\n", &p, p);
-
-    while (*p) {
-        printf("\np is: %p, value is: %c \n", p, *p);
-        printf("%c", *p);
-        p++;
+    if (matrix == NULL) {
+        printf("Something's wrong with memory allocation\n");
     }
-    printf("Buff is at: %p\t starts at: %p\n", &buff, buff);
-    printf("p is at: %p\t starts at: %p\n", &p, p);
 
-    printf("Hello\n");
+    *latin_square_in = matrix;
+
+    // TODO assign matrix to reserved memory
+    printf("Assigning chars to the matrix in heap\n");
+    f = fopen(filename, "r");
+    int i = 0;
+    int j = 0;
+    while ((c = getc(f)) != EOF) {
+        printf("%c", c);
+        if (c == 10) {
+            i++;
+            j = 0;
+            continue;
+        }
+        matrix[i][j] = c;
+        j++;
+    }
+    fclose(f);
 
     return;
 }
