@@ -12,6 +12,23 @@
 // ascii code of the new line character
 #define NL 10
 
+// structure for keeping count of each incountered char, size if 8 bytes
+typedef struct {
+    char c;
+    int count;
+} CL;
+
+/**
+ * This helper function returns 1 if the character is between 33: '!' and 126: '~'
+ * returns 0 otherwise
+ * 
+ * @param c  :: pointer to the char calue
+ * @return   :: if the char is valid
+ */
+int Valid_Symbol(char c) {
+    return (c >= 33) && (c <= 126);
+}
+
 /** 
  * This function takes the name of the file containing the latin square puzzle
  * and reads in the data to the the latin_square variable in main.  
@@ -97,6 +114,43 @@ int Verify_Alphabet(int n, char **latin_square) {
         return 0;
     }
 
+    printf("Matrix not valid, begin verification, n is: %i\n", n);
+
+    // Checks to make sure each character is valid
+    for (int i = 0; i < n; i++) {
+        char c = latin_square[0][i];
+        printf("%c is %s\n", c, Valid_Symbol(c) ? "Valid!" : "Invalid :(");
+    }
+
+    // Assigning each char to a spot in the array, only arr[33:126] will be used
+    // incrementing the value at each index each time it is found
+    char arr[126] = {0};
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            arr[(int)latin_square[i][j]]++;
+        }
+    }
+
+    // 33 and 126 are the range of chars we care about
+    int UniqueChar = 0;
+    for (int i = 33; i < 127; i++) {
+        char c = arr[i];
+        printf("[%i]: %c: %i  \n", i, i, c);
+        if (c) UniqueChar++;
+    }
+
+    // Checks if
+    if (UniqueChar != n) return 0;
+
+    printf("There are %i unique chars.\n", UniqueChar);
+
+    printf("size of CL: %i\n", sizeof(CL));
+    printf("size of int: %i\n", sizeof(int));
+    printf("size of char: %i\n", sizeof(char));
+
+    printf("\n\n");
+
     return 0;
 }
 
@@ -115,6 +169,7 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
         printf("Verify_Rows_and_Columns - latin_square is NULL\n");
         return 0;
     }
+
     // printf("Error in row %d\n", row);
     // printf("Error in column %d\n", col);
 

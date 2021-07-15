@@ -31,7 +31,7 @@ void Print_Latin_Square(int n, char **latin_square) {
 int main(int argc, char *argv[]) {
     // Verify command line parameters
     if (argc != 2) {
-        printf("expected usage: %s <file_name>", argv[0]);
+        printf("expected usage: %s <file_name>\n", argv[0]);
         exit(1);
     }
 
