@@ -21,19 +21,17 @@ typedef struct {
 /**
  * This helper function returns 1 if the character is between 33: '!' and 126: '~'
  * returns 0 otherwise
- * 
+ *
  * @param c  :: pointer to the char calue
  * @return   :: if the char is valid
  */
-int Valid_Symbol(char c) {
-    return (c >= 33) && (c <= 126);
-}
+int Valid_Symbol(char c) { return (c >= 33) && (c <= 126); }
 
-/** 
+/**
  * This function takes the name of the file containing the latin square puzzle
- * and reads in the data to the the latin_square variable in main.  
+ * and reads in the data to the the latin_square variable in main.
  *
- * @param n               :: the dimensions of the board.  
+ * @param n               :: the dimensions of the board.
  *                           Note all boards tested will be square (i.e. nxn)
  * @param filename        :: the name of the file to read in
  * @param latin_square_in :: a pointer to the latin square variable in main
@@ -99,10 +97,10 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
     return;
 }
 
-/** 
- * This function checks to see that exactly n symbols are used and that each symbol is used exactly n times.
- * Valid symbols include charcters with ascii codes 33 to 126 (inclusive)
- * Google "man ascii" to pull up the table
+/**
+ * This function checks to see that exactly n symbols are used and that each symbol is used exactly
+ * n times. Valid symbols include charcters with ascii codes 33 to 126 (inclusive) Google "man
+ * ascii" to pull up the table
  *
  * @param n            :: the dimensions of the puzzle - all puzzles will be square (i.e. nxn)
  * @param latin_square :: the puzzle data structure
@@ -114,52 +112,84 @@ int Verify_Alphabet(int n, char **latin_square) {
         return 0;
     }
 
-    printf("Matrix not valid, begin verification, n is: %i\n", n);
-
     // Checks to make sure each character is valid
     for (int i = 0; i < n; i++) {
         char c = latin_square[0][i];
-        printf("%c is %s\n", c, Valid_Symbol(c) ? "Valid!" : "Invalid :(");
+        if (!Valid_Symbol(c)) return 0;
     }
 
-    // Assigning each char to a spot in the array, only arr[33:126] will be used
-    // incrementing the value at each index each time it is found
-    char arr[126] = {0};
+    // create a dynamic array on the heap
+    CL *a = calloc(n, sizeof(CL));
 
+    // double checking to make sure allocation succeeds
+    if (a == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(1);
+    }
+
+    //? printf("\nchar is: %c\ncount is: %i\n", a[0].c, a[0].count);
+    //? printf("char is: %c\ncount is: %i\n", a[1].c, a[1].count);
+    //? printf("char is: %c\ncount is: %i\n", a[2].c, a[2].count);
+    //? printf("char is: %c\ncount is: %i\n", a[3].c, a[3].count);
+
+    // TODO populate the map with char's and counts
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            arr[(int)latin_square[i][j]]++;
+            // increment the count of each char
+            for (int k = 0; k < n; k++) {
+                // if char wasn't in the map,
+                // add it
+                if (!a[k].c) {
+                    a[k].c = latin_square[i][j];
+                    a[k].count = 1;
+                    break;
+                }
+                // if char is already in the map,
+                // increment its count
+                else if (latin_square[i][j] == a[k].c) {
+                    a[k].count++;
+                    break;
+                }
+            }
         }
     }
 
-    // 33 and 126 are the range of chars we care about
-    int UniqueChar = 0;
-    for (int i = 33; i < 127; i++) {
-        char c = arr[i];
-        printf("[%i]: %c: %i  \n", i, i, c);
-        if (c) UniqueChar++;
+    // Checks if the count of each char has the right amount, n
+    for (int i = 0; i < n; i++) {
+        if (!a[i].c) {
+            printf("Map not filled fully!\n");
+            return 0;
+        }
+        if (a[i].count != n) {
+            printf("Char: '%c' doesn't have the right count\n", a[i].c);
+            printf("Expected: %i\nActual: %i\n", n, a[i].count);
+            return 0;
+        }
+        return 1;
     }
 
-    // Checks if
-    if (UniqueChar != n) return 0;
+    //? printf("\nchar is: %c\ncount is: %i\n", a[0].c, a[0].count);
+    //? printf("char is: %c\ncount is: %i\n", a[1].c, a[1].count);
+    //? printf("char is: %c\ncount is: %i\n", a[2].c, a[2].count);
+    //? printf("char is: %c\ncount is: %i\n", a[3].c, a[3].count);
 
-    printf("There are %i unique chars.\n", UniqueChar);
+    //? printf("There are %i unique chars.\n", UniqueChar);
 
-    printf("size of CL: %i\n", sizeof(CL));
-    printf("size of int: %i\n", sizeof(int));
-    printf("size of char: %i\n", sizeof(char));
+    //? printf("size of CL: %i\n", sizeof(CL));
+    //? printf("size of int: %i\n", sizeof(int));
+    //? printf("size of char: %i\n", sizeof(char));
 
     printf("\n\n");
 
     return 0;
 }
 
-/** 
+/**
  * This function verifies that no symbol is used twice in a row or column.
  * It prints an error message alerting the user which rows or columns have duplicate symbols
  * Test all rows first then test all columns.
  * Error messages have been included for you.
- * 
+ *
  * @param n            :: the dimensions of the puzzle - all puzzles will be square (i.e. nxn)
  * @param latin_square :: the puzzle data structure
  * @return             :: 0 if the any row or column contains a duplicate symbol otherwise return 1
@@ -176,13 +206,11 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
     return 0;
 }
 
-/** 
+/**
  * This function calls free to return all memory used by the latin_square puzzle
  * note you will have n+1 calls to free where n is the size of the puzzle.
  *
  * @param n            :: the dimensions of the puzzle - all puzzles will be square (i.e. nxn)
  * @param latin_square :: the puzzle data structure
  */
-void Free_Memory(int n, char **latin_square) {
-    return;
-}
+void Free_Memory(int n, char **latin_square) { return; }
