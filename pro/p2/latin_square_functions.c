@@ -28,6 +28,62 @@ typedef struct {
 int Valid_Symbol(char c) { return (c >= 33) && (c <= 126); }
 
 /**
+ * This helper function returns a transpose of the original matrix
+ * Modified the code from the lecture on transpose matrix
+ *
+ * @param a  :: Pointer to the initial matrix
+ * @param n  :: Size of the matrix
+ * @return   :: Pointer to transposed matrix
+ */
+char **transpose(char **a, int n) {
+    char **p = malloc(n * sizeof(char *));
+    for (int i = 0; i < n; i++) p[i] = malloc(n * sizeof(char));
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++) *(*(p + i) + j) = *(*(a + j) + i);
+
+    return p;
+}
+
+/**
+ * Checks that each row doesn't have any dups
+ *
+ * @param n             :: size of the matrix
+ * @param latin_square  :: pointer to the matrix
+ * @param rowOrCol      :: 0 if it's for row, 1 if it's for column
+ *
+ * @return              :: 0 if there's error, 1 if it's valid
+ */
+int checkRow(int n, char **latin_square, int rowOrCol) {
+    int valid = 1;
+
+    // TODO check each row is valid
+    for (int i = 0; i < n; i++) {
+        // Using an array to check if an char has been seen before
+        char bigArr[126] = {0};
+
+        for (int j = 0; j < n; j++) {
+            // temp variable
+            int c = (int)latin_square[i][j];
+
+            // if haven't seen before, add it at the index
+            // else, return error
+            if (!bigArr[c])
+                bigArr[c] = 1;
+            else {
+                // determins whether to print 'row' or 'column'
+                char *loc = rowOrCol ? "column" : "row";
+                printf("Error in %s %d\n", loc, i);
+                // rowOrCol ? printf("Error in row %d\n", i) : printf("Error in column %d\n", i);
+                valid = 0;
+                break;
+            }
+        }
+    }
+    return valid;
+}
+
+/**
  * This function takes the name of the file containing the latin square puzzle
  * and reads in the data to the the latin_square variable in main.
  *
@@ -127,11 +183,6 @@ int Verify_Alphabet(int n, char **latin_square) {
         exit(1);
     }
 
-    //? printf("\nchar is: %c\ncount is: %i\n", a[0].c, a[0].count);
-    //? printf("char is: %c\ncount is: %i\n", a[1].c, a[1].count);
-    //? printf("char is: %c\ncount is: %i\n", a[2].c, a[2].count);
-    //? printf("char is: %c\ncount is: %i\n", a[3].c, a[3].count);
-
     // TODO populate the map with char's and counts
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -168,17 +219,6 @@ int Verify_Alphabet(int n, char **latin_square) {
         return 1;
     }
 
-    //? printf("\nchar is: %c\ncount is: %i\n", a[0].c, a[0].count);
-    //? printf("char is: %c\ncount is: %i\n", a[1].c, a[1].count);
-    //? printf("char is: %c\ncount is: %i\n", a[2].c, a[2].count);
-    //? printf("char is: %c\ncount is: %i\n", a[3].c, a[3].count);
-
-    //? printf("There are %i unique chars.\n", UniqueChar);
-
-    //? printf("size of CL: %i\n", sizeof(CL));
-    //? printf("size of int: %i\n", sizeof(int));
-    //? printf("size of char: %i\n", sizeof(char));
-
     printf("\n\n");
 
     return 0;
@@ -199,11 +239,24 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
         printf("Verify_Rows_and_Columns - latin_square is NULL\n");
         return 0;
     }
+    // Start off as valid, if there are any dups, turn invalid
+    int valid = 1;
 
-    // printf("Error in row %d\n", row);
-    // printf("Error in column %d\n", col);
+    // TODO check each row is valid
+    valid = checkRow(n, latin_square, 0);
 
-    return 0;
+    // TODO Create a transpose matrix of the original
+    // to detect dups in cols
+    char **t = transpose(latin_square, n);
+
+    // TODO check each col is valid
+    valid = checkRow(n, t, 1);
+
+    // free memory of transposed matrix
+    for (int i = 0; i < n; i++) free(t[i]);
+    free(t);
+
+    return valid;
 }
 
 /**
