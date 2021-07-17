@@ -208,20 +208,17 @@ int Verify_Alphabet(int n, char **latin_square) {
     // Checks if the count of each char has the right amount, n
     for (int i = 0; i < n; i++) {
         if (!a[i].c) {
-            printf("Map not filled fully!\n");
+            //? printf("Map not filled fully!\n");
             return 0;
         }
         if (a[i].count != n) {
-            printf("Char: '%c' doesn't have the right count\n", a[i].c);
-            printf("Expected: %i\nActual: %i\n", n, a[i].count);
+            //? printf("Char: '%c' doesn't have the right count\n", a[i].c);
+            //? printf("Expected: %i\nActual: %i\n", n, a[i].count);
             return 0;
         }
-        return 1;
     }
-
-    printf("\n\n");
-
-    return 0;
+    free(a);
+    return 1;
 }
 
 /**
@@ -253,7 +250,7 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
     valid = checkRow(n, t, 1);
 
     // free memory of transposed matrix
-    for (int i = 0; i < n; i++) free(t[i]);
+    for (int i = 0; i < n; i++) free(*(t + i));
     free(t);
 
     return valid;
@@ -266,4 +263,10 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
  * @param n            :: the dimensions of the puzzle - all puzzles will be square (i.e. nxn)
  * @param latin_square :: the puzzle data structure
  */
-void Free_Memory(int n, char **latin_square) { return; }
+void Free_Memory(int n, char **latin_square) {
+    for (int i = 0; i < n; i++) {
+        free(*(latin_square + i));
+    }
+    free(latin_square);
+    return;
+}
