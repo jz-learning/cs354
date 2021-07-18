@@ -12,7 +12,7 @@
 // ascii code of the new line character
 #define NL 10
 
-// structure for keeping count of each incountered char, size if 8 bytes
+// structure for keeping count of each incountered char, size of 8 bytes
 typedef struct {
     char c;
     int count;
@@ -37,10 +37,15 @@ int Valid_Symbol(char c) { return (c >= 33) && (c <= 126); }
  */
 char **transpose(char **a, int n) {
     char **p = malloc(n * sizeof(char *));
-    for (int i = 0; i < n; i++) p[i] = malloc(n * sizeof(char));
+    // Initializing new 2d array
+    for (int i = 0; i < n; i++) {
+        *(p + i * sizeof(char)) = malloc(n * sizeof(char));
+    }
 
-    for (int i = 0; i < n; i++)
+    // Transposing original matrix into new one
+    for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) *(*(p + i) + j) = *(*(a + j) + i);
+    }
 
     return p;
 }
@@ -57,31 +62,36 @@ char **transpose(char **a, int n) {
 int checkRow(int n, char **latin_square, int rowOrCol) {
     int valid = 1;
 
-    // TODO check each row is valid
+    // * check each row is valid
     for (int i = 0; i < n; i++) {
         // Using an array to check if an char has been seen before
-        char bigArr[126] = {0};
-
+        char *bigArr = calloc(127, sizeof(char));
         for (int j = 0; j < n; j++) {
-            // temp variable
-            int c = (int)latin_square[i][j];
+            // temp variable of each character of the matrix
+            int c = *(*(latin_square + i) + j);
 
             // if haven't seen before, add it at the index
             // else, return error
-            if (!bigArr[c])
-                bigArr[c] = 1;
-            else {
+            if (*(bigArr + c) == 0)
+                *(bigArr + c) = 1;
+
+            else if (*(bigArr + c) == 1) {
                 // determins whether to print 'row' or 'column'
                 char *loc = rowOrCol ? "column" : "row";
                 printf("Error in %s %d\n", loc, i);
-                // rowOrCol ? printf("Error in row %d\n", i) : printf("Error in column %d\n", i);
                 valid = 0;
                 break;
             }
+
+            else
+                printf("Something wrong, bigArr has: %i\n", *(bigArr + i * sizeof(char)));
         }
+        free(bigArr);
     }
     return valid;
 }
+
+/* ####################### MAIN FUNCTIONS START ######################### */
 
 /**
  * This function takes the name of the file containing the latin square puzzle
@@ -112,14 +122,12 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
 
     // Assigns n to size for clearity and readibility
     int size = *n;
-    //? printf("The size of the array is: %i\n\n", size);
 
-    // TODO allocate memory based on size
-    //? printf("Allocating memory for matrix\n\n");
-
+    // * allocate memory based on size
     char **matrix = malloc(size * sizeof(char *));
+
     for (int i = 0; i < size; i++) {
-        *(matrix + i * sizeof(char)) = malloc(size * sizeof(char));
+        *(matrix + i) = malloc(size * sizeof(char));
     }
 
     if (matrix == NULL) {
@@ -128,17 +136,15 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
 
     *latin_square_in = matrix;
 
-    // TODO assign matrix to reserved memory
-    //? printf("Assigning chars to the matrix in heap\n");
-
+    // * assign matrix to reserved memory
     f = fopen(filename, "r");
+
     // Initializing index variables
     int i = 0;
     int j = 0;
+
     // Reads each character of the grid and adds to matrix
     while ((c = getc(f)) != EOF) {
-        //? printf("%c", c);
-
         // When reaching an end line character go to new row
         // and reset col count
         if (c == NL) {
@@ -146,7 +152,7 @@ void Read_Latin_Square_File(char *filename, char ***latin_square_in, int *n) {
             j = 0;
             continue;
         }
-        matrix[i][j] = c;
+        *(*(matrix + i) + j) = c;
         j++;
     }
     fclose(f);
@@ -170,11 +176,11 @@ int Verify_Alphabet(int n, char **latin_square) {
 
     // Checks to make sure each character is valid
     for (int i = 0; i < n; i++) {
-        char c = latin_square[0][i];
+        char c = *(*(latin_square) + i);
         if (!Valid_Symbol(c)) return 0;
     }
 
-    // create a dynamic array on the heap
+    // create a dynamic array of type CL on the heap
     CL *a = calloc(n, sizeof(CL));
 
     // double checking to make sure allocation succeeds
@@ -183,22 +189,25 @@ int Verify_Alphabet(int n, char **latin_square) {
         exit(1);
     }
 
-    // TODO populate the map with char's and counts
+    // * populate the map with char's and counts
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             // increment the count of each char
             for (int k = 0; k < n; k++) {
-                // if char wasn't in the map,
-                // add it
-                if (!a[k].c) {
-                    a[k].c = latin_square[i][j];
-                    a[k].count = 1;
+                // Temp variables
+                char c = *(*(latin_square + i) + j);
+                CL *node = &*(a + k);
+
+                // if char wasn't in the map, add it
+                if (!node->c) {
+                    node->c = c;
+                    node->count = 1;
                     break;
                 }
                 // if char is already in the map,
                 // increment its count
-                else if (latin_square[i][j] == a[k].c) {
-                    a[k].count++;
+                else if (node->c == c) {
+                    node->count++;
                     break;
                 }
             }
@@ -207,13 +216,11 @@ int Verify_Alphabet(int n, char **latin_square) {
 
     // Checks if the count of each char has the right amount, n
     for (int i = 0; i < n; i++) {
-        if (!a[i].c) {
-            //? printf("Map not filled fully!\n");
-            return 0;
-        }
-        if (a[i].count != n) {
-            //? printf("Char: '%c' doesn't have the right count\n", a[i].c);
-            //? printf("Expected: %i\nActual: %i\n", n, a[i].count);
+        CL *node = &*(a + i);
+
+        // If the lenghs don't match up
+        if (!node->c || node->count != n) {
+            free(a);
             return 0;
         }
     }
@@ -239,14 +246,14 @@ int Verify_Rows_and_Columns(int n, char **latin_square) {
     // Start off as valid, if there are any dups, turn invalid
     int valid = 1;
 
-    // TODO check each row is valid
+    // * check each row is valid
     valid = checkRow(n, latin_square, 0);
 
-    // TODO Create a transpose matrix of the original
+    // * Create a transpose matrix of the original
     // to detect dups in cols
     char **t = transpose(latin_square, n);
 
-    // TODO check each col is valid
+    // * check each col is valid
     valid = checkRow(n, t, 1);
 
     // free memory of transposed matrix
