@@ -13,13 +13,12 @@ int main() {
 
     num = num + 3;
 
-    for (int i=0; i<4; i++) 
-        sum = sum + num;
-    printf("sum = %d \n", sum);    
+    for (int i = 0; i < 4; i++) sum = sum + num;
+    printf("sum = %d \n", sum);
 
     recursive_countdown(3);
 
-    char *text = malloc(99999999999999999999999999999999999);
+    char *text = malloc(99999999);
     *text = 'a';
 
     printf("Thanks for watching");
@@ -31,8 +30,13 @@ void recursive_countdown(int n) {
         printf("Blastoff!!! \n");
         return;
     }
-    printf("t-minus %d \n",n);
-    n = n-1;
+    printf("t-minus %d \n", n);
+    n = n - 1;
     recursive_countdown(n);
+    return;
+}
+
+void print_something(int x) {
+    printf("no way\n");
     return;
 }
