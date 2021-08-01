@@ -19,10 +19,10 @@ func:
 	movl	-8(%ebp), %eax
 	cmpl	-4(%ebp), %eax
 	jle	.L2
-	movl	$3, -8(%ebp)
+	movl	$0, -8(%ebp)
 	jmp	.L4
 .L2:
-	movl	$4, -4(%ebp)
+	movl	$0, -4(%ebp)
 .L4:
 	nop
 	leave
@@ -43,7 +43,7 @@ __x86.get_pc_thunk.ax:
 	ret
 	.cfi_endproc
 .LFE1:
-	.ident	"GCC: (Ubuntu 9.3.0-10ubuntu2) 9.3.0"
+	.ident	"GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
 	.align 4
