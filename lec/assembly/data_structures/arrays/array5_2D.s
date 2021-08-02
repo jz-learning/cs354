@@ -22,15 +22,16 @@ main:
 	movl	$51, -24(%ebp)
 	movl	$52, -20(%ebp)
 	movl	$53, -16(%ebp)
-	movl	$3, -4(%ebp)
-	movl	$1, -8(%ebp)
-	movl	-4(%ebp), %edx
-	movl	%edx, %eax
-	addl	%eax, %eax
-	addl	%edx, %eax
-	movl	-8(%ebp), %edx
-	addl	%edx, %eax
-	movl	-72(%ebp,%eax,4), %eax
+
+	movl	$3, -4(%ebp)	# i
+	movl	$1, -8(%ebp)	# j
+	movl	-4(%ebp), %edx	# get i (3)
+	movl	%edx, %eax		# both eax and edx is 3
+	addl	%eax, %eax		# 3 + 3 = 6
+	addl	%edx, %eax		# 3 + 6 = 9
+	movl	-8(%ebp), %edx	# get j (1)
+	addl	%edx, %eax		# 1 + 9 = 10, move 10 index
+	movl	-72(%ebp,%eax,4), %eax	# 10 * 4 bytes = location of goal
 	movl	%eax, -12(%ebp)
 	movl	$0, %eax
 	leave

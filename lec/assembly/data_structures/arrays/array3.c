@@ -15,7 +15,8 @@ int main() {
 -28(%ebp) - start of the array
 -28(%ebp, %eax, 4)
 
-/*
+
+//! Stack
 -32  ::   
 -28  :: 10  a[0]
 -24  :: 20  a[1]        
@@ -26,4 +27,4 @@ int main() {
 -4   :: 2   i 
 %ebp :: stored %ebp
 return value
-*/
+

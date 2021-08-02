@@ -12,15 +12,15 @@ main:
 	movl	$30, -24(%ebp)
 	movl	$40, -20(%ebp)
 	movl	$50, -16(%ebp)
-	movl	$2, -4(%ebp)
-	movl	-4(%ebp), %eax
-	movl	-32(%ebp,%eax,4), %eax
-	movl	%eax, -8(%ebp)
-	movl	-4(%ebp), %eax
-	leal	0(,%eax,4), %edx
-	leal	-32(%ebp), %eax
-	addl	%edx, %eax
-	movl	%eax, -12(%ebp)
+	movl	$2, -4(%ebp)			# Set i as 2
+	movl	-4(%ebp), %eax			
+	movl	-32(%ebp,%eax,4), %eax	# grab value at a[i], a[2]
+	movl	%eax, -8(%ebp)			# give previous value to x
+	movl	-4(%ebp), %eax			# get value of i
+	leal	0(,%eax,4), %edx		# 4 * i (bytes)
+	leal	-32(%ebp), %eax			# grab address of a[]
+	addl	%edx, %eax				# add twp addresses
+	movl	%eax, -12(%ebp)			# store at p
 	movl	$0, %eax
 	leave
 	ret

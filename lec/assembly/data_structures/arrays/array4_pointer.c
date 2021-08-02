@@ -14,7 +14,7 @@ int main() {
 }
 
 a[i]   ===  *(a + i)
-in assembly a + 4*i
+in assembly a + 4 * i
 
 /*
 -32  :: 10  a[0]  
