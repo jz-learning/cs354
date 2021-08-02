@@ -1,0 +1,63 @@
+void increment(int *x){
+    *x = *x + 1;
+}
+
+int main(){
+    int f = 10;
+    increment(&f);
+    return 0;
+}
+
+
+/*
+assembly
+
+setup
+prologue
+function body
+epilogue
+cleanup
+
+increment:
+    #prologue
+    pushl %ebp
+    movl %esp, %ebp
+    #body
+    movl 8(%ebp), %eax #get address from parameter
+    movl (%eax), %eax #dereference to get value
+    addl $1, %eax #increment
+    movl 8(%ebp), %edx #get address
+    movl %eax, (%edx) #store in address
+    #epilogue
+    popl %ebp
+    ret
+
+main:
+    pushl %ebp
+    movl %esp, %ebp
+    subl $16, %esp # reserving space for f
+    movl $10, -4(%epb) # store 10 in f
+    #setup
+    leal -4(%ebp), %eax #get address
+    pushl %eax  # push parameter on stack
+    call increment
+    add $4, %esp # remove parameter from the stack
+    movl $0, %eax # prepare to return 0
+    leave
+    return
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
