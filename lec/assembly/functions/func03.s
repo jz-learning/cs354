@@ -32,13 +32,13 @@ main:
 	.cfi_offset 5, -8
 	movl	%esp, %ebp
 	.cfi_def_cfa_register 5
-	subl	$16, %esp
+	subl	$16, %esp						# reserve space on stack
 	call	__x86.get_pc_thunk.ax
 	addl	$_GLOBAL_OFFSET_TABLE_, %eax
-	movl	$1, -4(%ebp)
+	movl	$1, -4(%ebp)					# set answer as 1
 	call	func
-	movl	%eax, -4(%ebp)
-	movl	$0, %eax
+	movl	%eax, -4(%ebp)					# return value stored in %eax,
+	movl	$0, %eax						# put into answer varialbe
 	leave
 	.cfi_restore 5
 	.cfi_def_cfa 4, 4

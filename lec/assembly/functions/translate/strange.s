@@ -15,9 +15,9 @@ strange:
 	movl	8(%ebp), %eax
 	movl	(%eax), %edx
 	movl	12(%ebp), %eax
-	addl	%eax, %edx
-	movl	8(%ebp), %eax
-	movl	%edx, (%eax)
+	addl	%eax, %edx			// 3 + 4, edx=7
+	movl	8(%ebp), %eax		
+	movl	%edx, (%eax)		// *b = 7 
 	movl	-4(%ebp), %eax
 	leave
 	ret

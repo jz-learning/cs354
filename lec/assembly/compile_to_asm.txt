@@ -1,0 +1,1 @@
+gcc -S array1.c -m32 -fno-asynchronous-unwind-tables -fno-pie -fno-stack-protector
