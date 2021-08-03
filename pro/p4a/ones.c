@@ -44,4 +44,6 @@ int main() {
     printf("%d\n", a);
 
     // write your own test such that the answer is 31
+    a = countOnes(-2);  // answer 31
+    printf("%d\n", a);
 }

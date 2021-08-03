@@ -45,7 +45,7 @@ int countOnes(int n) {
     testl   %eax, %eax      // Checks if (n) is 0
     jnz     .Loop           // jumps to loop if not 0 
     movl    -4(%ebp), %eax  // prepare to return sum
-    popl    %ebp            // clean up stack
+    leave                   // clean up stack
     ret                     // return to caller
 
 
