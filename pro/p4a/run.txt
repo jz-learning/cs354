@@ -1,0 +1,1 @@
+ gcc count.S ones.c -m32 -Wall

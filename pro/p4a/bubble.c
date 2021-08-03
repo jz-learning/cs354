@@ -27,15 +27,16 @@ void printArr(int* arr) {
     return;
 }
 
+/*
 int main() {
-    // gets pointer to random array
+    //* gets pointer to random array
     int* arr = getArr();
 
-    // Runs n times
+    //* Runs n times
     for (int i = 0; i < ARR_SIZE - 1; i++) {
-        // each run, bubble everything from the begining
+        //* each run, bubble everything from the begining
         for (int j = 0; j < ARR_SIZE - i - 1; j++) {
-            // if larger, then swap
+            //* if larger, then swap
             if (arr[j] > arr[j + 1]) {
                 int temp = arr[j + 1];
                 arr[j + 1] = arr[j];
@@ -47,3 +48,4 @@ int main() {
     printArr(arr);
     return 0;
 }
+*/
