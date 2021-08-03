@@ -14,11 +14,10 @@ int main() {
 %esp		->
 			->
 			->
-			->
 			->	3 * 4 = 12 (c)
 %ebp		->	Stores base pointer
 			-> 	return address
-			->	address of (b)
+			->	address of (a)
 			->	4 (a)
 			->
 			->	3 (b)

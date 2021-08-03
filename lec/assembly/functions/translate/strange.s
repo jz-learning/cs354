@@ -11,7 +11,7 @@ strange:
 	movl	(%eax), %eax
 	movl	12(%ebp), %edx
 	imull	%edx, %eax
-	movl	%eax, -4(%ebp)
+	movl	%eax, -4(%ebp)		// Store 12 in c in mem
 	movl	8(%ebp), %eax
 	movl	(%eax), %edx
 	movl	12(%ebp), %eax
