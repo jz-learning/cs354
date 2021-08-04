@@ -11,12 +11,13 @@ func:
 	movl	$2, -8(%ebp)
 	movl	-4(%ebp), %eax
 	cmpl	-8(%ebp), %eax
-	jle	.L2
-	movl	$0, -4(%ebp)
-	jmp	.L4
+	jge	.L2
+	movl	$99, -4(%ebp)
+	jmp	.L3
 .L2:
-	movl	$0, -8(%ebp)
-.L4:
+	movl	$-5, -8(%ebp)
+.L3:
+	movl	$100, -12(%ebp)
 	nop
 	leave
 	ret
