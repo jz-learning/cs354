@@ -27,22 +27,12 @@ void printArr(int* arr) {
     return;
 }
 
+
+/*
 int main() {
     // gets pointer to random array
     int* arr = getArr();
 
-    // // Runs n times
-    // for (int i = 0; i < ARR_SIZE - 1; i++) {
-    //     // each run, bubble everything from the begining
-    //     for (int j = 0; j < ARR_SIZE - i - 1; j++) {
-    //         // if larger, then swap
-    //         if (arr[j] > arr[j + 1]) {
-    //             int temp = arr[j + 1];
-    //             arr[j + 1] = arr[j];
-    //             arr[j] = temp;
-    //         }
-    //     }
-    // }
 
     int i = 0;
     goto outterCmpr;
@@ -61,8 +51,6 @@ outterCode:;
             arr[j + 1] = arr[j];
             arr[j] = temp;
 
-            
-
         functionCmpr:
             if (arr[j] > arr[j + 1]) {
                 goto function;
@@ -75,7 +63,7 @@ outterCode:;
         }
     }
     i++;
-    
+
 outterCmpr:
     if (i < 19) {
         goto outterCode;
@@ -83,21 +71,5 @@ outterCmpr:
 
     printArr(arr);
     return 0;
-
-    // middle:
-    //     if (i < 19) {
-    //         int j = 0;
-    //     inner:
-    //         if (j < 19 - i) {
-    //             if (arr[j] > arr[j + 1]) {
-    //                 int temp = arr[j + 1];
-    //                 arr[j + 1] = arr[j];
-    //                 arr[j] = temp;
-    //             }
-    //             j++;
-    //             goto inner;
-    //         }
-    //         i++;
-    //         goto middle;
-    //     }
 }
+*/
