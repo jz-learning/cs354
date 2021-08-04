@@ -11,9 +11,11 @@ int Is_Number_Correct(int a, int b, int i) {
 }
 
 // write f0 here
+// answer 5589516
 int f0() { return 5589516; }
 
 // write f1 here
+// answer 26
 int f1() {
     int arr[6] = {25027, 51330, 67548, 30404, 49, 17};
     int x = arr[1];
@@ -31,13 +33,31 @@ int f1() {
 }
 
 // write f2 here
-int f2() { return 0; }
+// answer 7042
+int f2(int n) {
+    int x = 0;
+    int y = 0;
+    while (x < 28) {
+        y += (x * x) + n;
+        x++;
+    }
+    return y;
+}
 
 // write f3_helper here
-int f3_Help() { return 0; }
+void f3_Help(int *p) { *p = 3 + *p; }
 
 // write f3 here
-void f3(int x, int *px) { f3_Help(); }
+void f3(int x, int *px) {
+    printf("%i\n", *px);
+    f3_Help(px);
+    printf("%i\n", *px);
+    f3_Help(px);
+    printf("%i\n", *px);
+    // int *y = &x;
+    // px = px << 3;
+    // &x = px + y;
+}
 
 int main() {
     int i;
