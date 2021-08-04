@@ -1,3 +1,10 @@
+// James Zhang
+// jzhang924
+// JAMES ZHANG
+// 9079769411
+// 08/04/2021
+// N/A
+
 #include <stdio.h>
 #define N 4
 
@@ -10,12 +17,14 @@ int Is_Number_Correct(int a, int b, int i) {
     return 0;
 }
 
-// write f0 here
-// answer 5589516
+/**
+ * @return Answer: 5589516
+ */
 int f0() { return 5589516; }
 
-// write f1 here
-// answer 26
+/**
+ * @return Answer 26
+ */
 int f1() {
     int arr[6] = {25027, 51330, 67548, 30404, 49, 17};
     int x = arr[1];
@@ -23,7 +32,7 @@ int f1() {
 
     if (arr[0] > (x + y)) {
         arr[0] = arr[0] >> 4;
-        printf("Doesn't Run\n");
+        printf("Doesn't it run?\n");  // it doesn't
     }
 
     x = arr[1] * arr[0];
@@ -32,8 +41,12 @@ int f1() {
     return arr[3] % arr[5];
 }
 
-// write f2 here
-// answer 7042
+/**
+ * Answer: 7042
+ *
+ * @param n  :: it's 4, but not really sure where it comes from
+ * @return   :: A simple while loop
+ */
 int f2(int n) {
     int x = 0;
     int y = 0;
@@ -44,19 +57,23 @@ int f2(int n) {
     return y;
 }
 
-// write f3_helper here
+/**
+ * Helper function for f3
+ *
+ * @param px :: pointer to a[3]
+ */
 void f3_Help(int *p) { *p = 3 + *p; }
 
-// write f3 here
+/**
+ * Answer: 36462
+ *
+ * @param x  :: value a[3], 4046
+ * @param px :: pointer to a[3]
+ */
 void f3(int x, int *px) {
-    printf("%i\n", *px);
     f3_Help(px);
-    printf("%i\n", *px);
     f3_Help(px);
-    printf("%i\n", *px);
-    // int *y = &x;
-    // px = px << 3;
-    // &x = px + y;
+    *px = (*px << 3) + x;
 }
 
 int main() {
