@@ -4,9 +4,10 @@
 	.type	sum, @function
 sum:
 	endbr32
-	pushl	%ebp			# push the base pointer to point at bot of main
+	pushl	%ebp
 	movl	%esp, %ebp
 	subl	$16, %esp
+	addl	$1, 8(%ebp)
 	movl	8(%ebp), %edx
 	movl	12(%ebp), %eax
 	addl	%edx, %eax
@@ -19,16 +20,16 @@ sum:
 	.type	main, @function
 main:
 	endbr32
-	pushl	%ebp			# push base pointer
-	movl	%esp, %ebp		# move stack pointer to base pointer
-	subl	$16, %esp		# prepare space for return value
-	pushl	$2				# pushing params onto stack
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$16, %esp
+	pushl	$2
 	pushl	$1
-	call	sum				# call func
+	call	sum
 	addl	$8, %esp
 	movl	%eax, -4(%ebp)
 	movl	$0, %eax
-	leave					# movl %ebp, %esp     ||    popl %ebp
+	leave
 	ret
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
