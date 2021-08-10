@@ -13,16 +13,24 @@ int main() {
     // else
     //     printf("false\n");
 
-    for (int i = 0; i < 5; i++) {
-        printf("%i\n", arr[i]);
-        printf("Address of arr: %p\n", &arr[i]);
-    }
-    printf("=============\n");
-    for (int i = 0; i < 5; i++) {
-        printf("%i \n", *(arr + i));
-        printf("Address of arr: %p\n", arr);
-        printf("Address of arr: %p\n", &*(arr + i));
-    }
+    // for (int i = 0; i < 5; i++) {
+    //     printf("%i\n", arr[i]);
+    //     printf("Address of arr: %p\n", &arr[i]);
+    // }
+    // printf("=============\n");
+    // for (int i = 0; i < 5; i++) {
+    //     printf("%i \n", *(arr + i));
+    //     printf("Address of arr: %p\n", arr);
+    //     printf("Address of arr: %p\n", &*(arr + i));
+    // }
+
+    // op = 0000 0000 0010
+    // xx = 0000 0000 0001
+
+    int op = 0x02;
+    int xx = 0x1;
+    op = op & xx;
+    printf("%x\n", op);
 }
 
 char at(char *arr, int idx) { return *(arr + idx * sizeof(char)); }

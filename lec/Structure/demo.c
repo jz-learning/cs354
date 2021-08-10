@@ -18,7 +18,10 @@ int main(int argc, char const *argv[]) {
     printf("ID is: %d, at: %p\n", sd.id, &sd.id);
     printf("String at: %p\n\n", sd.name);
 
+    printf("Regular print\n");
     Print_Struct(sd);
+
+    printf("Struct pointer: \n");
     Print_Struct_Pointer(&sd);
 
     return 0;
