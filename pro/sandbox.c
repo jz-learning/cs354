@@ -2,6 +2,14 @@
 
 char at(char *arr, int idx);
 
+int Pad_Size(int x) {
+    int mod;
+    if ((mod = x % 4)) {
+        x += (4 - mod);
+    }
+    return x;
+}
+
 int main() {
     int arr[5] = {2, 4, 6, 8, 10};
 
@@ -27,10 +35,15 @@ int main() {
     // op = 0000 0000 0010
     // xx = 0000 0000 0001
 
-    int op = 0x02;
-    int xx = 0x1;
-    op = op & xx;
-    printf("%x\n", op);
+    /*
+        int op = 0x02;
+        int xx = 0x1;
+        op = op & xx;
+        printf("%x\n", op);
+    */
+
+    int x = 9;
+    printf("Original: %i \nAfter: %i\n", x, Pad_Size(x));
 }
 
 char at(char *arr, int idx) { return *(arr + idx * sizeof(char)); }
